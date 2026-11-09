@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+<!-- SPDX-FileCopyrightText: 2026 uofm-matt -->
+<schemalist>
+  <schema id="org.gnome.shell.extensions.settle-lockscreen.login" path="/org/gnome/shell/extensions/settle-lockscreen/login/">
+    <key name="dim" type="d">
+      <range min="0.0" max="1.0"/>
+      <default>0.0</default>
+      <summary>Darkening over the video on the login screen</summary>
+      <description>Black laid over the video behind the login dialog, from 0 (none) to 1, to match a login theme that darkens its wallpaper.</description>
+    </key>
+    <key name="settle" type="b">
+      <default>true</default>
+      <summary>Slow the video to a stop when the password is accepted</summary>
+      <description>Hold the session start while the video slows to a stop (settle-delay-ms, then settle-ramp-ms), then make the frame it stopped on the desktop picture. False signs in at once and leaves the desktop picture as it was.</description>
+    </key>
+  </schema>
+</schemalist>

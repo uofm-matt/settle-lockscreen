@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 uofm-matt
+
+# The login screen's last frame becomes the wallpaper before the shell
+# starts; see docs/login-screen.md.
+
+[Unit]
+Description=The login screen's last frame as the wallpaper
+ConditionPathIsDirectory=/run/settle-lockscreen-login
+ConditionPathIsDirectory=%h/.local/share/settle-lockscreen
+Before=gnome-session-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/gjs -m /usr/share/gnome-shell/extensions/settle-lockscreen@uofm-matt.github.io/takeFrame.js
+TimeoutStartSec=5s
+
+[Install]
+WantedBy=gnome-session-pre.target

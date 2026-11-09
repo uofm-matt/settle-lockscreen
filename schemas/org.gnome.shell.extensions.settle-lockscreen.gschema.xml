@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+<!-- SPDX-FileCopyrightText: 2026 uofm-matt -->
+<schemalist>
+  <schema id="org.gnome.shell.extensions.settle-lockscreen" path="/org/gnome/shell/extensions/settle-lockscreen/">
+    <key name="video-path" type="s">
+      <default>''</default>
+      <summary>Video to play</summary>
+      <description>Any file mpv can play. Empty means clip.mp4 in ~/.local/share/settle-lockscreen.</description>
+    </key>
+    <key name="lock-play-seconds" type="i">
+      <range min="5" max="3600"/>
+      <default>120</default>
+      <summary>Longest the video plays at a time</summary>
+      <description>Seconds of playback on one lock, counted only while the display is on. Then the video settles into a still.</description>
+    </key>
+    <key name="settle-delay-ms" type="i">
+      <range min="0" max="10000"/>
+      <default>1000</default>
+      <summary>How long the video keeps moving after unlock</summary>
+    </key>
+    <key name="settle-ramp-ms" type="i">
+      <range min="200" max="10000"/>
+      <default>1500</default>
+      <summary>How long the slow-down to a stop takes</summary>
+    </key>
+    <key name="play-in-power-saver" type="b">
+      <default>false</default>
+      <summary>Play while the power-saver profile is on</summary>
+    </key>
+    <key name="hardware-decoding" type="b">
+      <default>true</default>
+      <summary>Decode the video on the GPU when it can</summary>
+      <description>Turn off if the video glitches or tears on your GPU.</description>
+    </key>
+  </schema>
+</schemalist>

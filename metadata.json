@@ -1,0 +1,10 @@
+{
+  "uuid": "settle-lockscreen@uofm-matt.github.io",
+  "name": "Settle Lockscreen",
+  "description": "A video plays behind the lock screen, keeps moving for a moment after unlock, slows to a stop, and the frame it stops on becomes the desktop picture. mpv runs only while the screen is locked, and for a few seconds after unlock.\n\nNeeds mpv. Choose a video in the preferences and make its first frame the wallpaper there; from then on the extension sets the wallpaper itself.",
+  "shell-version": ["50", "51"],
+  "session-modes": ["user", "unlock-dialog"],
+  "settings-schema": "org.gnome.shell.extensions.settle-lockscreen",
+  "url": "https://github.com/uofm-matt/settle-lockscreen",
+  "version-name": "0.1"
+}
