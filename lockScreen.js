@@ -150,7 +150,7 @@ export class LockScreen {
         // Hack: wallpaper actors are reachable only through their managers
         const managers = [
             ...Main.layoutManager._bgManagers,
-            ...Main.screenShield._dialog?._bgManagers ?? [],
+            ...Main.screenShield._dialog._bgManagers,
         ];
         for (const manager of managers)
             this._addLayer(manager.backgroundActor);
@@ -161,10 +161,9 @@ export class LockScreen {
         if (focused && global.display.list_all_windows().includes(focused))
             focused.focus(global.display.get_current_time_roundtrip());
 
-        this._timers.after(FADE_IN_MS, () => {
-            if (video === this._video && this._state === State.PLAYING)
-                video.setPlaying(this._power.on);
-        });
+        await this._timers.sleep(FADE_IN_MS, this._cancellable);
+        if (video === this._video && this._state === State.PLAYING)
+            video.setPlaying(this._power.on);
     }
 
     // Locked again during a settle: play on.
@@ -212,11 +211,13 @@ export class LockScreen {
                 Promise.all(swapped),
                 this._timers.sleep(SWAP_CEILING_MS, settling),
             ]);
+            if (settling.is_cancelled())
+                return;
+
             video.fade(0, FADE_OUT_MS);
-            this._timers.after(FADE_OUT_MS, () => {
-                if (!settling.is_cancelled())
-                    this._stop();
-            });
+            await this._timers.sleep(FADE_OUT_MS, settling);
+            if (!settling.is_cancelled())
+                this._stop();
         } catch (error) {
             if (!settling.is_cancelled()) {
                 console.error('Failed to settle:', error);

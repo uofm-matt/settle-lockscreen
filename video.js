@@ -111,6 +111,7 @@ export class Video {
 
     // Back to full speed after a slow-down, with a new allowance.
     resume(displayOn) {
+        this._budget.pause();
         this._budget = this._newBudget();
         this._player.tell('speed', 1);
         this.setPlaying(displayOn);

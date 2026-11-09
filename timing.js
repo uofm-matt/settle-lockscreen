@@ -24,8 +24,11 @@ export class Timers {
             return;
 
         GLib.source_remove(id);
-        this._sources.get(id)?.(new GLib.Error(Gio.IOErrorEnum,
-            Gio.IOErrorEnum.CANCELLED, 'Operation was cancelled'));
+        const reject = this._sources.get(id);
+        if (reject) {
+            reject(new GLib.Error(Gio.IOErrorEnum,
+                Gio.IOErrorEnum.CANCELLED, 'Operation was cancelled'));
+        }
         this._sources.delete(id);
     }
 
