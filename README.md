@@ -59,7 +59,7 @@ Things that bite when changing it:
 - The lock screen blurs and darkens its background, and the video plays inside that background, so it is blurred and darkened too. The login screen does neither, so its `dim` setting exists to match a login theme that darkens.
 - Measured on VMs without a GPU: about 45% of one core and 220 MB while playing, nothing after settling.
 - Not tested: several monitors, and plugging in a monitor while locked.
-- Version 0.2 was tested in VMs on Fedora 44 (GNOME 50) and Ubuntu 26.10 (GNOME 51). Version 0.1 was also tested on Ubuntu 26.04, Fedora Rawhide and an Intel laptop running GNOME 51, and earlier versions also ran on CachyOS (GNOME 51).
+- Version 0.3 was tested in VMs on Fedora 44 (GNOME 50) and Ubuntu 26.10 (GNOME 51). Version 0.1 was also tested on Ubuntu 26.04, Fedora Rawhide and an Intel laptop running GNOME 51, and earlier versions also ran on CachyOS (GNOME 51).
 
 Besides running mpv, it writes `new-frame.png`, `stop-frame.png`, `state.json` and, from the preferences, `first-frame.jpg` in `~/.local/share/settle-lockscreen/`, and sets the desktop picture. The system install also writes `login-frame-stamp` there.
 

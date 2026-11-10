@@ -229,13 +229,13 @@ export class LockScreen {
     _waitChanged(manager, cancellable) {
         const {promise, resolve, reject} = Promise.withResolvers();
         let cancelId = 0;
-        const changedId = manager.connect('changed', () => {
-            manager.disconnect(changedId);
+        manager.connectObject('changed', () => {
+            manager.disconnectObject(this);
             cancellable.disconnect(cancelId);
             resolve();
-        });
+        }, this);
         cancelId = cancellable.connect(() => {
-            manager.disconnect(changedId);
+            manager.disconnectObject(this);
             reject(new GLib.Error(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED,
                 'Settling was cancelled'));
         });
@@ -248,11 +248,8 @@ export class LockScreen {
     }
 
     _stop() {
-        if (this._state === State.IDLE)
-            return;
-
         this._settling?.cancel();
-        this._video.stop();
+        this._video?.stop();
         this._video = null;
         this._settling = null;
         this._state = State.IDLE;

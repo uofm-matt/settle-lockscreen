@@ -20,16 +20,15 @@ export class Timers {
     }
 
     remove(id) {
-        if (!this._sources.has(id))
-            return;
-
-        GLib.source_remove(id);
-        const reject = this._sources.get(id);
-        if (reject) {
-            reject(new GLib.Error(Gio.IOErrorEnum,
-                Gio.IOErrorEnum.CANCELLED, 'Operation was cancelled'));
+        if (this._sources.has(id)) {
+            GLib.source_remove(id);
+            const reject = this._sources.get(id);
+            if (reject) {
+                reject(new GLib.Error(Gio.IOErrorEnum,
+                    Gio.IOErrorEnum.CANCELLED, 'Operation was cancelled'));
+            }
+            this._sources.delete(id);
         }
-        this._sources.delete(id);
     }
 
     // Rejects when the timer is removed or the cancellable is cancelled.
@@ -67,11 +66,10 @@ export class Budget {
     }
 
     pause() {
-        if (!this._id)
-            return;
-
-        GLib.source_remove(this._id);
-        this._id = 0;
-        this._left -= (GLib.get_monotonic_time() - this._started) / 1000;
+        if (this._id) {
+            GLib.source_remove(this._id);
+            this._id = 0;
+            this._left -= (GLib.get_monotonic_time() - this._started) / 1000;
+        }
     }
 }

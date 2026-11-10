@@ -156,7 +156,7 @@ export class Player {
     _onProperty(name, value) {
         this._properties[name] = value;
         const {'time-pos': position, dwidth, dheight} = this._properties;
-        if (!this._frameWaiter || typeof position !== 'number' ||
+        if (!this._frameWaiter || !Number.isFinite(position) ||
             !dwidth || !dheight)
             return;
 

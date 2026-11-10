@@ -14,8 +14,10 @@ export default class SettleLockscreenExtension extends Extension {
             this._lockScreen = new LockScreen(this.getSettings());
     }
 
-    // The video plays behind the lock screen, so the extension keeps running
-    // in unlock-dialog; it connects no keyboard signals.
+    // The video plays behind the lock screen and slows to a stop after the
+    // unlock, so the extension runs in user as well; it connects no keyboard
+    // signals. A disable during a lock drops the video, and the next enable
+    // starts it again from the wallpaper's frame, still in unlock-dialog.
     disable() {
         this._lockScreen?.destroy();
         this._lockScreen = null;

@@ -10,7 +10,7 @@ The shell cannot decode video inside a wallpaper actor without stalling the comp
 
 ## Session modes
 
-`session-modes` lists `unlock-dialog` because the video plays behind the lock screen. Nothing in the extension reads input; it connects no keyboard signals. The system install also lists `gdm`, to play on the login screen.
+`session-modes` lists `unlock-dialog` because the video plays behind the lock screen, and `user` because at an unlock the slow-down, the saved frame and the wallpaper change happen after it, in the user session. Nothing in the extension reads input; it connects no keyboard signals. If the shell disables the extension during a lock, the video is dropped, and an enable while the screen is still locked starts it again from the wallpaper's frame. The system install also lists `gdm`, to play on the login screen.
 
 ## One lock
 
@@ -26,14 +26,14 @@ If the wallpaper changes while the extension waits on something, even to the ext
 Each use is marked `Hack:` in the code.
 
 - `BackgroundManager.prototype._createBackgroundActor`, wrapped with an `InjectionManager`: wallpaper actors the shell creates while the video plays (a monitor change, the lock screen's own) get a layer too.
-- `Main.layoutManager._bgManagers` and the unlock dialog's `_bgManagers`: the only way to reach the wallpaper actors, and their `changed` signal says when the new wallpaper has loaded.
+- `Main.layoutManager._bgManagers` and the unlock dialog's `_bgManagers`, reached through `Main.screenShield._dialog`: the only way to reach the wallpaper actors, and their `changed` signal says when the new wallpaper has loaded.
 - The focus is given back to the window that had it, since mapping mpv's window took it.
 
 The system install also uses:
 
 - `ScreenShield.prototype._ensureUnlockDialog`: the login dialog is built late, and again after a destroy.
 - `LoginDialog.prototype._startSession` and the dialog's GDM client, `_greeter`: GDM ends the login screen as soon as the session starts, so the start call is held for the slow-down. A timer makes the call at the latest `settle-delay-ms + settle-ramp-ms + 2 s` after the password, and any failure makes it at once.
-- `Main.screenShield._dialog` and the dialog's `_user`.
+- The login dialog, also reached through `Main.screenShield._dialog`, and its `_user`.
 - `Main.layoutManager._startingUp`: when the wallpaper is the extension's, animations are inhibited from enable to `startup-complete`, so the session shows the login frame at once. This works only where the extension is enabled before the startup animation begins, which in tests was true on Fedora and not on Ubuntu.
 
 ## Cancellation

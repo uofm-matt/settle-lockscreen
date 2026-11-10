@@ -72,7 +72,8 @@ export class Video {
         layer.opacity = this._shown ? 255 : 0;
 
         // the shell destroys the parent, and the layer with it
-        layer.connect('destroy', () => this._layers.delete(layer));
+        layer.connectObject('destroy',
+            () => this._layers.delete(layer), this);
         this._layers.add(layer);
         return layer;
     }
